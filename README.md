@@ -64,7 +64,7 @@ buildscript {
    ```java
    package android.content.pm;
 
-   import dev.rikka.tools.refine.RefineAs;
+   import dev.rikka.tools.refine.RefineFor;
 
    @RefineAs(PackageManager.class)
    public class PackageManagerHidden {

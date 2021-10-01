@@ -1,5 +1,5 @@
 include(":gradle-plugin")
-include(":annotation-processor")
+include(":compiler-java")
 include(":annotation")
 include(":runtime")
 
