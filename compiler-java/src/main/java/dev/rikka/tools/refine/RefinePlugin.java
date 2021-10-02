@@ -1,8 +1,10 @@
 package dev.rikka.tools.refine;
 
 import com.google.auto.service.AutoService;
-import com.sun.source.tree.MethodTree;
-import com.sun.source.util.*;
+import com.sun.source.util.JavacTask;
+import com.sun.source.util.Plugin;
+import com.sun.source.util.TaskEvent;
+import com.sun.source.util.TaskListener;
 import com.sun.tools.javac.api.BasicJavacTask;
 import com.sun.tools.javac.code.Attribute;
 import com.sun.tools.javac.code.Scope;
@@ -13,7 +15,6 @@ import com.sun.tools.javac.util.Context;
 import com.sun.tools.javac.util.Name;
 import com.sun.tools.javac.util.Pair;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @AutoService(Plugin.class)
@@ -48,9 +49,8 @@ public class RefinePlugin implements Plugin {
 
             @Override
             public void started(TaskEvent e) {
+                final Symtab symtab = Symtab.instance(context);
                 if (e.getKind() == TaskEvent.Kind.ANALYZE) {
-                    final Symtab symtab = Symtab.instance(context);
-
                     final HashMap<String, ClassSymbol> classes = new HashMap<>();
                     for (ClassSymbol clazz : symtab.getAllClasses()) {
                         classes.put(clazz.className(), clazz);
@@ -87,32 +87,6 @@ public class RefinePlugin implements Plugin {
                             scope.enter(duplicated);
                         }
                     }
-                }
-            }
-
-            @Override
-            public void finished(TaskEvent e) {
-                try {
-                    if (e.getKind() == TaskEvent.Kind.ANALYZE) {
-                        final Symtab symtab = Symtab.instance(context);
-                        final ArrayList<ClassSymbol> classes = new ArrayList<>();
-
-                        symtab.getAllClasses().forEach(classes::add);
-
-                        for (ClassSymbol clazz : classes) {
-                            for (Symbol symbol : clazz.members().getSymbols()) {
-//                                if (symbol instanceof Symbol.MethodSymbol) {
-//                                    if (((Symbol.MethodSymbol) symbol).code != null) {
-//                                        System.out.println(symbol);
-//                                    }
-//                                }
-                            }
-                        }
-                    }
-                } catch (Throwable t) {
-                    t.printStackTrace();
-
-                    throw t;
                 }
             }
         });

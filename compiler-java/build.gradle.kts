@@ -19,8 +19,10 @@ java {
 }
 
 tasks.withType(JavaCompile::class) {
-    options.compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"))
-    options.compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"))
-    options.compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED"))
-    options.compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED"))
+    options.apply {
+        compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"))
+        compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"))
+        compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED"))
+        compilerArgs.addAll(listOf("--add-exports", "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED"))
+    }
 }
