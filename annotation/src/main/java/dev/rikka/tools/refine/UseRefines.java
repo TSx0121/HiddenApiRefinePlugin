@@ -4,6 +4,6 @@ import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE})
-public @interface RefineUse {
+public @interface UseRefines {
     Class<?>[] value();
 }

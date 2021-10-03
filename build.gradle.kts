@@ -7,7 +7,7 @@ buildscript {
 
 allprojects {
     group = "dev.rikka.tools.refine"
-    version = "3.0.3"
+    version = "4.0.0"
 }
 
 task("clean", type = Delete::class) {
@@ -29,10 +29,6 @@ subprojects {
             archiveClassifier.set("sources")
             from(sourceSets.named("main").get().allSource)
         }
-        val javadocJar = tasks.register("javadocJar", type = Jar::class) {
-            archiveClassifier.set("javadoc")
-            from(tasks["javadoc"])
-        }
 
         val publishing = extensions.getByType(PublishingExtension::class.java).apply {
             publications {
@@ -41,8 +37,7 @@ subprojects {
                     this.version = project.version.toString()
 
                     from(components["java"])
-
-                    artifact(javadocJar)
+                    
                     artifact(sourcesJar)
 
                     pom {

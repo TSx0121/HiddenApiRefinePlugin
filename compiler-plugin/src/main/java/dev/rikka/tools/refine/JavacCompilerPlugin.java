@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @AutoService(Plugin.class)
-public class RefineCompilerPlugin implements Plugin {
+public class JavacCompilerPlugin implements Plugin {
     private Symtab symtab;
     private Names names;
 
@@ -75,28 +75,6 @@ public class RefineCompilerPlugin implements Plugin {
                 }
 
                 result.enter(duplicated);
-            } else if (member instanceof Symbol.ClassSymbol) {
-                if (resolveAnnotationValue(member, refineFor) != null) {
-                    continue;
-                }
-
-                final Symbol.ClassSymbol from = (Symbol.ClassSymbol) member;
-                final Symbol.ClassSymbol clazz = new Symbol.ClassSymbol(from.flags_field, from.name, owner);
-
-                clazz.completer = Symbol.Completer.NULL_COMPLETER;
-
-                final Symbol.ClassSymbol origin = singleOrNull(symtab.getClassesForName(clazz.flatname));
-                if (origin != null) {
-                    clazz.members_field = duplicateAndMergeSymbols(renames, origin.members_field, from.members_field.getSymbols(), owner);
-                    clazz.permitted = origin.permitted;
-                    clazz.setAnnotationTypeMetadata(origin.getAnnotationTypeMetadata());
-                } else {
-                    clazz.members_field = duplicateAndMergeSymbols(renames, Scope.WriteableScope.create(clazz), from.members_field.getSymbols(), owner);
-                    clazz.permitted = from.permitted;
-                    clazz.setAnnotationTypeMetadata(from.getAnnotationTypeMetadata());
-                }
-
-                result.enter(clazz);
             }
         }
 
@@ -134,7 +112,7 @@ public class RefineCompilerPlugin implements Plugin {
                                 return;
                             }
 
-                            refineUse = singleOrNull(symtab.getClassesForName(names.fromString(RefineUse.class.getName())));
+                            refineUse = singleOrNull(symtab.getClassesForName(names.fromString(UseRefines.class.getName())));
                             if (refineUse == null) {
                                 task.removeTaskListener(this);
                                 return;

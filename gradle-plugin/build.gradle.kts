@@ -4,7 +4,7 @@ plugins {
 }
 
 val pluginId = "$group.$name"
-val pluginClass = "$group.RefinePlugin"
+val pluginClass = "$group.GradlePlugin"
 
 repositories {
     mavenCentral()
@@ -27,5 +27,11 @@ gradlePlugin {
             id = pluginId
             implementationClass = pluginClass
         }
+    }
+}
+
+tasks.withType(Jar::class) {
+    manifest {
+        attributes("Implementation-Version" to project.version.toString())
     }
 }
