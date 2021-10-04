@@ -6,12 +6,10 @@ import org.gradle.api.tasks.compile.CompileOptions;
 import org.gradle.api.tasks.compile.JavaCompile;
 
 import javax.annotation.Nonnull;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class GradlePlugin implements Plugin<Project> {
     @Override
     public void apply(@Nonnull Project target) {
@@ -39,16 +37,11 @@ public class GradlePlugin implements Plugin<Project> {
                 ));
                 options.getForkOptions().setJvmArgs(args);
 
-                final String generatedClassPath = Paths.get(project.getBuildDir().getAbsolutePath(), "generated", "hidden-api-refine")
-                        .toFile().getAbsolutePath();
-
                 List<String> compilerArgs = options.getCompilerArgs();
                 if (compilerArgs == null) {
                     compilerArgs = new ArrayList<>();
                 }
-                compilerArgs.addAll(List.of(
-                        "-Xplugin:HiddenApiRefine " + URLEncoder.encode(generatedClassPath, Charset.defaultCharset())
-                ));
+                compilerArgs.add("-Xplugin:HiddenApiRefine");
             });
         });
     }

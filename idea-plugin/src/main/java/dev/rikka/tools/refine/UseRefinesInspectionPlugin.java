@@ -24,9 +24,10 @@ public class UseRefinesInspectionPlugin extends LocalInspectionTool {
         if (!(file instanceof PsiJavaFile))
             return null;
 
-        final HashSet<String> useRefines = new HashSet<>();
+        ArrayList<ProblemDescriptor> descriptors = new ArrayList<>();
 
         for (PsiClass clazz : ((PsiJavaFile) file).getClasses()) {
+            final HashSet<String> useRefines = new HashSet<>();
             final PsiModifierList modifiers = clazz.getModifierList();
             if (modifiers != null) {
                 if (modifiers.hasModifierProperty(PsiModifier.PUBLIC)) {
@@ -52,8 +53,6 @@ public class UseRefinesInspectionPlugin extends LocalInspectionTool {
                     }
                 }
             }
-
-            ArrayList<ProblemDescriptor> descriptors = new ArrayList<>();
 
             clazz.acceptChildren(new JavaElementVisitor() {
                 @Override
@@ -83,10 +82,8 @@ public class UseRefinesInspectionPlugin extends LocalInspectionTool {
                     super.visitReferenceExpression(expression);
                 }
             });
-
-            return descriptors.toArray(new ProblemDescriptor[0]);
         }
 
-        return null;
+        return descriptors.toArray(new ProblemDescriptor[0]);
     }
 }

@@ -18,7 +18,6 @@ import com.sun.tools.javac.util.Names;
 import com.sun.tools.javac.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -88,8 +87,6 @@ public class JavacCompilerPlugin implements Plugin {
 
     @Override
     public void init(JavacTask task, String... args) {
-        System.out.println(Arrays.asList(args));
-
         final Context context = ((BasicJavacTask) task).getContext();
 
         symtab = Symtab.instance(context);

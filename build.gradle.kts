@@ -42,6 +42,10 @@ subprojects {
                     
                     artifact(sourcesJar)
 
+                    if (tasks.findByName("javadocJar") != null) {
+                        artifact(tasks["javadocJar"])
+                    }
+
                     pom {
                         name.set("HiddenApiRefine")
                         description.set("HiddenApiRefine")
