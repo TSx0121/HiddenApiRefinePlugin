@@ -4,7 +4,7 @@ plugins {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.2.2")
+    version.set("2020.3.1")
     plugins.set(listOf("java"))
 }
 

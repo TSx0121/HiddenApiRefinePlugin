@@ -36,15 +36,16 @@ public class UseRefinesInspectionPlugin extends LocalInspectionTool {
                             if (!attribute.getAttributeName().equals("value"))
                                 continue;
 
-                            if (!(attribute.getAttributeValue() instanceof JvmAnnotationArrayValue)) {
-                                continue;
-                            }
+                            final JvmAnnotationAttributeValue value = attribute.getAttributeValue();
+                            if (value instanceof JvmAnnotationArrayValue) {
+                                for (JvmAnnotationAttributeValue target : ((JvmAnnotationArrayValue) value).getValues()) {
+                                    if (!(target instanceof JvmAnnotationClassValue)) {
+                                        continue;
+                                    }
 
-                            for (JvmAnnotationAttributeValue value : ((JvmAnnotationArrayValue) attribute.getAttributeValue()).getValues()) {
-                                if (!(value instanceof JvmAnnotationClassValue)) {
-                                    continue;
+                                    useRefines.add(((JvmAnnotationClassValue) value).getQualifiedName());
                                 }
-
+                            } else if (value instanceof JvmAnnotationClassValue) {
                                 useRefines.add(((JvmAnnotationClassValue) value).getQualifiedName());
                             }
                         }

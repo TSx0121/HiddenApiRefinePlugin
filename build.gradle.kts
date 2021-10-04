@@ -19,6 +19,8 @@ subprojects {
     apply(plugin = "signing")
 
     afterEvaluate {
+        if (name == "idea-plugin") return@afterEvaluate
+
         println("- Add publishing to module '${this.name}'")
 
         val artifactName: String = this.name
